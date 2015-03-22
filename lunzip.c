@@ -2,8 +2,7 @@
 #include <lua.h>
 #include <lauxlib.h>
 
-#include "minizip/unzip.h"
-#include "minizip/ioapi_mem.h"
+#include "zlib/contrib/minizip/unzip.h"
 
 #include <string.h>
 
@@ -232,7 +231,7 @@ static long ZCALLBACK lunz_seek64_cb_func(voidpf opaque, voidpf stream, ZPOS64_T
 
 static void lunz_fill_cb_filefunc(zlib_filefunc64_def* pzlib_filefunc_def, lunz_State *S) {
     pzlib_filefunc_def->zopen64_file = lunz_open64_cb_func;
-    pzlib_filefunc_def->zopendisk64_file = lunz_opendisk64_cb_func;
+    /*pzlib_filefunc_def->zopendisk64_file = lunz_opendisk64_cb_func;*/
     pzlib_filefunc_def->zread_file = lunz_read_cb_func;
     pzlib_filefunc_def->zwrite_file = NULL;
     pzlib_filefunc_def->ztell64_file = lunz_tell64_cb_func;
@@ -307,7 +306,7 @@ static long ZCALLBACK lunz_seek64_mem_func(voidpf opaque, voidpf stream, ZPOS64_
 static void lunz_fill_mem_filefunc(zlib_filefunc64_def* pdef, lua_State *L, int idx) {
     lunz_BufferCtx *ctx;
     pdef->zopen64_file = lunz_open64_mem_func;
-    pdef->zopendisk64_file = lunz_opendisk64_mem_func;
+    /*pdef->zopendisk64_file = lunz_opendisk64_mem_func;*/
     pdef->zread_file = lunz_read_mem_func;
     pdef->zwrite_file = NULL;
     pdef->ztell64_file = lunz_tell64_mem_func;
@@ -566,10 +565,10 @@ static int Lglobalcomment(lua_State *L) {
 static int Llocatefile(lua_State *L) {
     lunz_State *S = lunz_check(L, 1);
     const char *file = luaL_checkstring(L, 2);
-    /*int ignorecase = lua_toboolean(L, 3);*/
+    int ignorecase = lua_toboolean(L, 3);
     int err;
     if (S->file == NULL) return 0;
-    if ((err = unzLocateFile(S->file, file, NULL)) != UNZ_OK)
+    if ((err = unzLocateFile(S->file, file, ignorecase)) != UNZ_OK)
         return lunz_pusherror(L, err);
     lua_settop(L, 1);
     return 1;

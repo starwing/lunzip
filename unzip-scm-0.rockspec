@@ -1,5 +1,5 @@
 package = "unzip"
-version = "0.1-1"
+version = "scm-0"
 source = {
    url = "git://git.oschina.net/starwing/lunzip.git",
 }
