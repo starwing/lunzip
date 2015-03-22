@@ -1,11 +1,11 @@
 package = "unzip"
 version = "scm-0"
 source = {
-   url = "https://git.oschina.net/starwing/lunzip.git",
+   url = "https://github.com/starwing/lunzip.git",
 }
 description = {
    summary = "A Lua module that use minizip to read zip file",
-   homepage = "https://git.oschina.net/starwing/lunzip",
+   homepage = "https://github.com/starwing/lunzip",
    license = "MIT"
 }
 dependencies = {
