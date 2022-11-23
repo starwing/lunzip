@@ -345,6 +345,9 @@ static int lunz_pusherror(lua_State *L, int err) {
     case UNZ_CRCERROR:
         lua_pushliteral(L, "crc error");
         break;
+    default:
+        lua_pushfstring(L, "unknown error %d", err);
+        break;
     }
     lua_pushinteger(L, err);
     return 3;
